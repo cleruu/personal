@@ -4,10 +4,9 @@ import java.util.Arrays;
 class App { 
     static int index;
     public static void main(String[] args) { 
-        int[] a = {1, 2, 3, 4, 5, 1}; // Initialize the array
+        int[] a = {15, 30, 25, 19, 30, 40}; // Initialize the array
         System.out.println(Arrays.toString(a)); 
         recurArrRemove(a);         // call the method 
-        System.out.println("The array is now empty!");
     }
 
     public static void recurArrRemove (int[] aray) { // method for removing elements in an array
@@ -16,13 +15,19 @@ class App {
             System.out.print("Enter a number to remove: ");
             int delete = scan.nextInt(); // scan for input to be deleted
 
-            int index = Arrays.binarySearch(aray, delete); // Looks for the index of the input, and assigns it to the index variable
+            for (int i = 0; i < aray.length; i++) { // checks for the index of the scanned number
+                if (delete == aray[i]) {
+                    index = i; break;
+                }
+                else 
+                    index = -1;
+            }
 
-            if (index < 0)  {
+            if (index < 0)  { // If element is not in the list prints not in the list
                 System.out.println("ELEMENT NOT IN THE LIST");
-                recurArrRemove(aray);
-                return;
-            }// If number inputted is not in the array, repeat.
+                recurArrRemove(aray); // If number inputted is not in the array, repeat.
+                scan.close(); return; 
+            }   
                 
             int[] proxyArray = new int[aray.length - 1]; // creates a new array to store 
             
@@ -31,7 +36,8 @@ class App {
                     continue;
                 proxyArray[k++] = aray[i];
             }
-            System.out.println(Arrays.toString(proxyArray)); 
+            System.out.println(proxyArray.length == 0 ? "The array is now empty!" : Arrays.toString(proxyArray)); // checks if the array has no more elements, if none it prints "The array is now empty."
+
             recurArrRemove(proxyArray); // calls the function recursively until aray.length returns false
         }
         scan.close();
