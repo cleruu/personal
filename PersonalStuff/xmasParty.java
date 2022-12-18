@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
  
 class App { 
     
@@ -23,30 +24,49 @@ class App {
         names.add("Uriel");
         names.add("Wilde");
 
+        ArrayList<String> sec_list = new ArrayList<String>();
+        sec_list = (ArrayList)names.clone();
+
+        int[] range = IntStream.rangeClosed(1, 40).toArray();
+        List<Integer> intlist = new ArrayList<Integer>();
+
+        for (int number : range) 
+            intlist.add(number);
+    
         ArrayList<String[]> groups = new ArrayList<String[]>();
         int i = 0;
 
-        while (names.size() > 0) {
-            if (names.size() <= 0 ) 
+        while (intlist.size() > 0) {
+            if (intlist.size() <= 0 ) 
                 break;
+            if (intlist.size() == 1) {
+                String[] tempAray = {names.get(0), sec_list.get(0)};
+                groups.add(i, tempAray);
+                break;
+            }
 
-            int x = (int) Math.floor(Math.random() * names.size());
-            int y = (int) Math.floor(Math.random() * names.size());
-            System.out.println("x ==: " + x + " y ==: " + y + " size ==: " + names.size());
+            int x = (int) Math.floor(Math.random() * intlist.size());
+            int y = (int) Math.floor(Math.random() * intlist.size());
+            System.out.println("x ==: " + x + " y ==: " + y + " size ==: " + intlist.size());
 
-            if (x == y || (x < 0|| y < 0))
+            if (names.get(x) == sec_list.get(y) && (x == 0 && y == 0))
+                break;
+            else if (names.get(x) == sec_list.get(y))
                 continue;
             
-            String[] tempAray = {names.get(x), names.get(y)};
+            String[] tempAray = {names.get(x), sec_list.get(y)};
 
             groups.add(i, tempAray);
             i++;
-            List<String> list = Arrays.asList(tempAray);
-
-            names.removeAll(list);
+            intlist.remove(intlist.get(x));
+            names.remove(names.get(x));
+            sec_list.remove(sec_list.get(y));
         }
-
         for (String[] strings : groups) 
             System.out.println(Arrays.toString(strings));
     }
 }
+
+
+
+
